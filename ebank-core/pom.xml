@@ -9,20 +9,12 @@
     </parent>
     <artifactId>ebank-core</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-
+    <name>ebank-core</name>
     <dependencies>
         <dependency>
             <groupId>org.easyb</groupId>
-            <artifactId>easyb</artifactId>
+            <artifactId>maven-easyb-plugin</artifactId>
+            <version>0.9.5.2</version>
         </dependency>
     </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.easyb</groupId>
-                <artifactId>maven-easyb-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>
