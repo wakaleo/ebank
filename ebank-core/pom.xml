@@ -11,10 +11,53 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>ebank-core</name>
     <dependencies>
+    	<dependency>
+    		<groupId>hsqldb</groupId>
+    		<artifactId>hsqldb</artifactId>
+    		<version>1.8.0.7</version>
+    		<type>jar</type>
+    	</dependency>
+        <!--
+    	<dependency>
+    		<groupId>org.easyb</groupId>
+    		<artifactId>easyb-dbunit-plugin</artifactId>
+    		<version>0.9</version>
+    		<type>jar</type>
+    	</dependency>
+    	-->
         <dependency>
-            <groupId>org.easyb</groupId>
-            <artifactId>maven-easyb-plugin</artifactId>
-            <version>0.9.5.2</version>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.4</version>
         </dependency>
     </dependencies>
+    <build>
+      <plugins>
+        <plugin>
+            <groupId>org.codehaus.groovy.maven</groupId>
+            <artifactId>gmaven-plugin</artifactId>
+            <version>1.0-rc-5</version>
+            <executions>
+                <execution>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>execute</goal>
+                    </goals>
+                    <configuration>
+                        <classpath>
+                            <element>
+                                <groupId>commons-lang</groupId>
+                                <artifactId>commons-lang</artifactId>
+                            </element>
+                        </classpath>
+                        <source>
+                            import org.apache.commons.lang.SystemUtils
+                            println SystemUtils.IS_OS_MAC_OSX ? "I'm a Mac" : "I'm not"
+                        </source>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+      </plugins>
+    </build>
 </project>
