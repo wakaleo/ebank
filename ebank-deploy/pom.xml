@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>ebank</artifactId>
+		<groupId>org.ebank</groupId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>ebank-deploy</artifactId>
+	<packaging>pom</packaging>
+	<name>ebank web deployment module</name>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.0</version>
+				<configuration>
+					<!-- Container configuration -->
+					<container>
+						<containerId>tomcat6x</containerId>
+						<type>remote</type>
+					</container>
+					<configuration>					
+<!--
+						<type>existing</type>
+						<home>/usr/local/apache-tomcat-6.0.18</home>
+-->
+						<type>runtime</type>
+						<properties>
+							<cargo.remote.username>admin</cargo.remote.username>
+							<cargo.remote.password></cargo.remote.password>
+							<cargo.tomcat.manager.url>http://localhost:8888/manager</cargo.tomcat.manager.url>
+						</properties>
+					</configuration>
+					<deployer>
+						<deployables>
+							<deployable>
+								<artifactId>ebank-web</artifactId>
+								<groupId>org.ebank</groupId>
+								<type>war</type>
+							</deployable>
+						</deployables>
+					</deployer>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.ebank</groupId>
+			<artifactId>ebank-web</artifactId>
+			<type>war</type>
+			<version>${target.version}</version>
+		</dependency>
+	</dependencies>	
+	<properties>
+		<target.version>${project.version}</target.version>
+	</properties>
+</project>

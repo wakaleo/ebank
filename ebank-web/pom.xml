@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>ebank</artifactId>
+		<groupId>org.ebank</groupId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>ebank-web</artifactId>
+	<packaging>war</packaging>
+	<name>ebank web application</name>
+	<version>1.0.0-SNAPSHOT</version>
+	<build>
+		<finalName>ebank-web</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>unit-tests</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<excludes>
+								<exclude>**/web/**</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>integration-tests</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<includes>
+								<include>**/web/**</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.18</version>
+				<configuration>
+					<scanIntervalSeconds>5</scanIntervalSeconds>
+					<stopPort>9966</stopPort>
+					<stopKey>foo</stopKey>
+				</configuration>
+				<!--
+					<executions> <execution> <id>start-jetty</id>
+					<phase>pre-integration-test</phase> <goals> <goal>run</goal>
+					</goals> <configuration> <daemon>true</daemon> </configuration>
+					</execution> <execution> <id>stop-jetty</id>
+					<phase>post-integration-test</phase> <goals> <goal>stop</goal>
+					</goals> </execution> </executions>
+				-->
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>start-container</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop-container</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<wait>false</wait>
+					<container>
+						<containerId>tomcat6x</containerId>
+						<home>/usr/local/apache-tomcat-6.0.18</home>
+					</container>
+					<configuration>
+						<type>standalone</type>
+						<home>target/tomcat6x</home>
+					</configuration>
+				</configuration>        
+			</plugin>
+
+			<plugin>
+				<groupId>org.easyb</groupId>
+				<artifactId>maven-easyb-plugin</artifactId>
+				<version>0.9.5.2</version>
+				<configuration>
+					<storyType>html</storyType>
+					<storyReport>target/easyb/easyb-report.html</storyReport>
+					<xmlReport>target/easyb/report.xml</xmlReport>
+				</configuration>
+				<executions>
+					<execution>
+						<id>run-easyb-tests</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<easybTestDirectory>${basedir}/src/test/easyb-web</easybTestDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!--
+				<plugin> <groupId>org.codehaus.mojo</groupId>
+				<artifactId>selenium-maven-plugin</artifactId> <executions>
+				<execution> <phase>pre-integration-test</phase> <goals>
+				<goal>start-server</goal> </goals> <configuration>
+				<background>true</background> </configuration> </execution>
+				</executions> </plugin>
+			-->
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.ebank</groupId>
+			<artifactId>ebank-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.htmlunit</groupId>
+			<artifactId>htmlunit</artifactId>
+			<version>2.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openqa.selenium.client-drivers</groupId>
+			<artifactId>selenium-java-client-driver</artifactId>
+			<version>1.0-beta-1</version>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>jetty-basic</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+						<version>1.0</version>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>integration</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+						<version>1.0</version>
+						<configuration>
+							<!-- Container configuration -->
+							<container>
+								<containerId>tomcat6x</containerId>
+							</container>
+							<configuration>
+								<type>existing</type>
+								<home>/usr/local/apache-tomcat-6.0.18</home>
+							</configuration>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
