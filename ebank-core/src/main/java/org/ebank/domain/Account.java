@@ -1,6 +1,7 @@
 package org.ebank.domain;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * An online bank account.
@@ -10,13 +11,22 @@ import java.math.BigDecimal;
 public class Account {
 
     private Long id;
-
+    
     private String accountNumber;
     
     private BigDecimal balance;
 
+    private Date date = new Date();
+    
+    final public static int CONSTANT_VALUE = 1;
+    
+    public Date getDate() {
+        return date;
+    }
+    
     public Account() {
         balance = BigDecimal.ZERO;
+        date = new Date();
     }
 
     public BigDecimal getBalance() {
@@ -33,7 +43,9 @@ public class Account {
      * @param deposit
      */
     public void makeDeposit(BigDecimal deposit) {
+        
         balance = balance.add(deposit);
+
     }
 
     public void withdraw(BigDecimal withdrawal) throws InsufficientFundsException {

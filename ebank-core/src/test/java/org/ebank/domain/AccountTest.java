@@ -1,7 +1,8 @@
 package org.ebank.domain;
 
 import org.junit.Test;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 import java.math.BigDecimal;
 
 public class AccountTest {
@@ -11,6 +12,15 @@ public class AccountTest {
         Account account = new Account();
         BigDecimal initialAmount = new BigDecimal("100");
         account.makeDeposit(initialAmount);
-        assertTrue(account.getBalance().equals(initialAmount));
+        assertThat(account.getBalance(), is(initialAmount));
+    }
+    
+    @Test 
+    public void withdrawalShouldDeductSumFromBalance() throws Exception {
+    	Account account = new Account();
+        BigDecimal initialAmount = new BigDecimal("100");
+        account.makeDeposit(initialAmount);
+        account.withdraw(new BigDecimal("60"));
+        assertThat(account.getBalance(), is(new BigDecimal("40")));
     }
 }

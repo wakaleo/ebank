@@ -21,7 +21,7 @@ scenario "Withdraw more money than there is in the account", {
        account = new Account()
        account.balance = initialBalance
     }
-    and "an amount is withdrawn that is greater than the balance", {
+    when "an amount is withdrawn that is greater than the balance", {
         withdrawTooMuchMoney = {
 	       account.withdraw(150)
         }
@@ -34,4 +34,11 @@ scenario "Withdraw more money than there is in the account", {
     and "the account balance remains unchanged", {
         account.balance.shouldBe initialBalance
     }
+}
+
+scenario "Withdraw money from blocked account", {
+    given "a blocked account"
+    when "money is withdrawn from the account"
+    then "an AccountBlockedException is raised"
+    and "the account balance remains unchanged"
 }
