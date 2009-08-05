@@ -19,7 +19,7 @@ public class TestUI {
     public void testDepositAmount() throws Exception {
     	
         Selenium selenium = new DefaultSelenium("localhost", 4444,
-                                               "*firefox", "http://localhost:8080");
+                                               "*firefox", "http://localhost:9090");
         selenium.start();
         selenium.open("/ebank-web");
         selenium.waitForPageToLoad("10000");

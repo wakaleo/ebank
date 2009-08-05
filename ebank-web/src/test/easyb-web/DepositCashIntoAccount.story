@@ -9,7 +9,7 @@ before_each "initialize a web client", {
 
 scenario "The application name is displayed in the page title", {
     given "the application home page is displayed", {
-      page = webClient.getPage("http://localhost:8080/ebank-web")
+      page = webClient.getPage("http://localhost:9090/ebank-web")
     }
     then "the balance should be equal to the amount deposited", {
       page.titleText.shouldBe "eBank - your money is safe with us!"
@@ -18,7 +18,7 @@ scenario "The application name is displayed in the page title", {
 
 scenario "Deposit cash via the web interface", {
     given "the application home page is displayed", {
-      page = webClient.getPage("http://localhost:8080/ebank-web")
+      page = webClient.getPage("http://localhost:9090/ebank-web")
     }
     and "the current balance is 0", {
       page.asText().contains "Current Balance: \$0"
@@ -61,7 +61,7 @@ scenario "The application name is displayed in the page title", {
 scenario "Make initial deposit onto a new account", {
   given "the account details page is displayed"?, {
       webClient = new WebClient()
-      page = webClient.getPage("http://localhost:8080/ebank-web")
+      page = webClient.getPage("http://localhost:9090/ebank-web")
       page.titleText.shouldBe "eBank - your money is safe with us!"
   }
   when "the user enters a value in the ‘deposit cash’ field"  
@@ -76,7 +76,7 @@ before "start selenium", {
         selenium = new DefaultSelenium("localhost",
                 SeleniumServer.getDefaultPort(),
                 "*firefox",
-                "http://localhost:8080")
+                "http://localhost:9090")
         selenium.start()
 }
 

@@ -18,14 +18,14 @@ public class TestWebUI {
     @Test
     public void homePage() throws Exception {
         final WebClient webClient = new WebClient();
-        final HtmlPage page = webClient.getPage("http://localhost:8080/ebank-web");
+        final HtmlPage page = webClient.getPage("http://localhost:9090/ebank-web");
         assertEquals("eBank - your money is safe with us!", page.getTitleText());
     }
 
     @Test
     public void depositCash() throws Exception {
         WebClient webClient = new WebClient();
-        HtmlPage page = webClient.getPage("http://localhost:8080/ebank-web");
+        HtmlPage page = webClient.getPage("http://localhost:9090/ebank-web");
         assert page.asText().contains("Current Balance: $0");
         HtmlForm form = page.getForms().get(0);
         HtmlSubmitInput depositButton = form.getInputByName("deposit");
@@ -42,7 +42,7 @@ public class TestWebUI {
     @Test
     public void withdrawCash() throws Exception {
         final WebClient webClient = new WebClient();
-        final HtmlPage page = webClient.getPage("http://localhost:8080/ebank-web");
+        final HtmlPage page = webClient.getPage("http://localhost:9090/ebank-web");
         System.out.println(page.asText());
         assert page.asText().contains("Current Balance: $0");
 
