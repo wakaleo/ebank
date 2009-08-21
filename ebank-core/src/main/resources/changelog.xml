@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.6"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.6
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.6.xsd">
+ 
+    <changeSet id="1" author="john">
+        <createTable tableName="department">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="boolean" defaultValue="1"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="john">
+        <createTable tableName="employee">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="firstname" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastname" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="depid" type="int">
+                <constraints nullable="false" 
+                             foreignKeyName="employee_dept_fk" 
+                             references="department(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+     
+</databaseChangeLog>

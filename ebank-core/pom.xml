@@ -1,63 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.ebank</groupId>
-        <artifactId>ebank</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-    <artifactId>ebank-core</artifactId>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.ebank</groupId>
+    <artifactId>ebank</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>ebank-core</name>
-    <dependencies>
-    	<dependency>
-    		<groupId>hsqldb</groupId>
-    		<artifactId>hsqldb</artifactId>
-    		<version>1.8.0.7</version>
-    		<type>jar</type>
-    	</dependency>
-        <!--
-    	<dependency>
-    		<groupId>org.easyb</groupId>
-    		<artifactId>easyb-dbunit-plugin</artifactId>
-    		<version>0.9</version>
-    		<type>jar</type>
-    	</dependency>
-    	-->
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.4</version>
-        </dependency>
-    </dependencies>
-    <build>
-      <plugins>
-        <plugin>
-            <groupId>org.codehaus.groovy.maven</groupId>
-            <artifactId>gmaven-plugin</artifactId>
-            <version>1.0-rc-5</version>
-            <executions>
-                <execution>
-                    <phase>verify</phase>
-                    <goals>
-                        <goal>execute</goal>
-                    </goals>
-                    <configuration>
-                        <classpath>
-                            <element>
-                                <groupId>commons-lang</groupId>
-                                <artifactId>commons-lang</artifactId>
-                            </element>
-                        </classpath>
-                        <source>
-                            import org.apache.commons.lang.SystemUtils
-                            println SystemUtils.IS_OS_MAC_OSX ? "I'm a Mac" : "I'm not"
+  </parent>
+  <artifactId>ebank-core</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>ebank-core</name>
+  <dependencies>
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>1.8.0.7</version>
+      <type>jar</type>
+    </dependency>
+    <!--
+      <dependency> <groupId>org.easyb</groupId>
+      <artifactId>easyb-dbunit-plugin</artifactId>
+      <version>0.9</version> <type>jar</type> </dependency>
+    -->
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.6</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+        <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>**/*.xml</exclude>
+        </excludes>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.codehaus.groovy.maven</groupId>
+        <artifactId>gmaven-plugin</artifactId>
+        <version>1.0-rc-5</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <classpath>
+                <element>
+                  <groupId>commons-lang</groupId>
+                  <artifactId>commons-lang</artifactId>
+                </element>
+              </classpath>
+              <source>
+                import org.apache.commons.lang.SystemUtils
+                println
+                SystemUtils.IS_OS_MAC_OSX ? "I'm a Mac" : "I'm not"
                         </source>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-      </plugins>
-    </build>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-plugin</artifactId>
+        <version>1.9.3.0</version>
+        <configuration>
+           <propertyFileWillOverride>true</propertyFileWillOverride>
+           <propertyFile>src/main/resources/liquibase.properties</propertyFile>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <properties>
+    <server.url>http://database.acme.com</server.url>
+  </properties>
 </project>

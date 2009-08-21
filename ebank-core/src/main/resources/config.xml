@@ -1,0 +1,5 @@
+<config>
+  <server>
+    <url>${server.url}</url>
+  </server>
+</config>

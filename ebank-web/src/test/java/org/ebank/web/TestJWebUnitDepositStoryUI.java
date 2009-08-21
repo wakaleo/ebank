@@ -1,6 +1,7 @@
 package org.ebank.web;
 
 import net.sourceforge.jwebunit.junit.WebTestCase;
+import net.sourceforge.jwebunit.junit.WebTester;
 
 public class TestJWebUnitDepositStoryUI extends WebTestCase {
 

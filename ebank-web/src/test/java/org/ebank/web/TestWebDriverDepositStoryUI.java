@@ -15,11 +15,11 @@ public class TestWebDriverDepositStoryUI {
 	
 	@Before
 	public void setUp() {
-		driver = new HtmlUnitDriver();
 	}
 	
 	@Test
 	public void testDepositingCashShouldAddToBalance() {		
+		driver = new HtmlUnitDriver();
 		driver.get("http://localhost:9090/ebank-web");
 		WebElement element = driver.findElement(By.name("depositAmount"));
 		element.sendKeys("100");
